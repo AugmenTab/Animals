@@ -18,6 +18,7 @@ import edu.cnm.deepdive.animals.model.ApiKey;
 import edu.cnm.deepdive.animals.service.AnimalService;
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -73,9 +74,10 @@ public class ImageFragment extends Fragment {
 
         Response<List<Animal>> listResponse = animalService.getAnimals(clientKey).execute();
         List<Animal> animalList = listResponse.body();
+        assert animalList != null;
         final String imageUrl = animalList.get(0).getImageUrl();
 
-        getActivity().runOnUiThread(new Runnable() {
+        Objects.requireNonNull(getActivity()).runOnUiThread(new Runnable() {
           @Override
           public void run() {
             contentView.loadUrl(imageUrl);
